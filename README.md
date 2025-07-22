@@ -120,3 +120,28 @@ Floyd 判圈法通过如下关键数学特性保证算法正确性：
         
     }
 ```
+
+![alt text](image-1.png)
+![alt text](image-2.png)
+
+```java
+public static void nextPermutation(int[] nums) {
+        int i = nums.length - 1;
+        while (i > 0 && nums[i - 1] >= nums[i]) {
+            i--;
+        }
+
+        if(i > 0){
+            int j = nums.length - 1;
+            while (nums[i - 1] >= nums[j]) {
+                j--;
+            }
+
+            int tempt = nums[j];
+            nums[j] = nums[i - 1];
+            nums[i - 1] = tempt;
+        }
+
+        Arrays.sort(nums, i, nums.length);
+    }
+```

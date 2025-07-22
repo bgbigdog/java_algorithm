@@ -1,8 +1,11 @@
 package com.example;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("first change code");
+        int array[] = {7,2,3,4,5,5};
+        nextPermutation(array);
 
     }
 
@@ -24,5 +27,25 @@ public class Main {
 
         return slow;
         
+    }
+
+    public static void nextPermutation(int[] nums) {
+        int i = nums.length - 1;
+        while (i > 0 && nums[i - 1] >= nums[i]) {
+            i--;
+        }
+
+        if(i > 0){
+            int j = nums.length - 1;
+            while (nums[i - 1] >= nums[j]) {
+                j--;
+            }
+
+            int tempt = nums[j];
+            nums[j] = nums[i - 1];
+            nums[i - 1] = tempt;
+        }
+
+        Arrays.sort(nums, i, nums.length);
     }
 }
