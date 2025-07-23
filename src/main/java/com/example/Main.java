@@ -48,4 +48,49 @@ public class Main {
 
         Arrays.sort(nums, i, nums.length);
     }
+
+    public static void sortColors(int[] nums) {
+        int rNum = 0;
+        int wNum = 0;
+        int bNum = 0;
+
+        for(int i = 0; i < nums.length; i++){
+            switch (nums[i]) {
+                case 0:
+                    rNum++;
+                    break;
+                case 1:
+                    wNum++;
+                    break;
+                default:
+                    bNum++;
+                    break;
+            }
+        }
+
+        int j = 0;
+        for(;j < rNum; j++){
+            nums[j] = 0;
+        }
+
+        for(;j < rNum+wNum; j++){
+            nums[j] = 1;
+        }
+
+        for(;j < rNum + wNum + bNum; j++){
+            nums[j] = 2;
+        }
+    }
+
+    public int climbStairs(int n) {
+        int res[] = new int[n];
+        res[0] = 1;
+        res[1] = 2;
+
+        for(int i = 2; i < n; i++){
+            res[i] = res[i - 1] + res[i - 2];
+        }
+
+        return res[n-1];
+    }
 }

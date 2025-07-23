@@ -145,3 +145,6 @@ public static void nextPermutation(int[] nums) {
         Arrays.sort(nums, i, nums.length);
     }
 ```
+
+![alt text](image-3.png)
+![alt text](image-4.png)
