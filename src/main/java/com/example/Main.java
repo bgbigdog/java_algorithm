@@ -4,13 +4,14 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        int array[] = { 1, 1, 1, 1, 1 };
+        int array[] = { 1,2,5 };
         // nextPermutation(array);
         // findTargetSumWays(array, 3);
-        String strArray[] = {"0","00","1"};
-        int m = 2;
-        int n = 1;
-        findMaxForm(strArray, m, n);
+        // String strArray[] = {"0","00","1"};
+        // int m = 2;
+        // int n = 1;
+        // findMaxForm(strArray, m, n);
+        coinChange(array, 11);
     }
 
     public int findDuplicate(int[] nums) {
@@ -274,5 +275,23 @@ public class Main {
 
         return dp[m][n];
 
+    }
+
+    public static int coinChange(int[] coins, int amount) {
+        // dp[i] = min(dp[i], dp[i - coins[j]] + 1)
+        //if(amount == 0)return 0;
+        int dp[] = new int[amount + 1];
+
+        for(int i = 1; i < dp.length; i++){
+            dp[i] = amount + 1;
+        }
+
+        for(int i = 0; i < coins.length; i++){
+            for(int j = coins[i]; j <= amount ; j++){
+                dp[j] = Math.min(dp[j], dp[j - coins[i]] + 1);
+            }
+        }
+
+       return dp[amount] > amount? -1: dp[amount];
     }
 }
