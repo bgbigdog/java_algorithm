@@ -1,17 +1,25 @@
 package com.example;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        int array[] = { 1,2,5 };
+        int array[] = {2,1,1,2};
         // nextPermutation(array);
         // findTargetSumWays(array, 3);
         // String strArray[] = {"0","00","1"};
         // int m = 2;
         // int n = 1;
         // findMaxForm(strArray, m, n);
-        coinChange(array, 11);
+        //coinChange(array, 11);
+        // int res[] = new int[2];
+        // res = twoSum(array, 6);
+        // System.err.println(res[0]);
+        // System.err.println(res[1]);
+        // numSquares(12);
+        generate(5);
     }
 
     public int findDuplicate(int[] nums) {
@@ -293,5 +301,101 @@ public class Main {
         }
 
        return dp[amount] > amount? -1: dp[amount];
+    }
+
+     public static int[] twoSum(int[] nums, int target) {
+        int res[] = new int[2];;
+        int left = 0;
+        int right = nums.length -1;
+        int tempt[] = Arrays.copyOf(nums, nums.length);
+        Arrays.sort(nums);
+        while(left < right){
+            int sum = nums[left] + nums[right];
+            if(sum == target){
+                res[0] = left;
+                res[1] = right;
+                break;
+            }else if(sum < target){
+                left++;
+            }else{
+                right--;
+            }
+        }
+
+        int resR[] = new int[2];
+        int count = 0;
+
+        for(int i = 0; i < tempt.length; i++){
+            if(tempt[i] == nums[res[0]] || tempt[i] == nums[res[1]]){
+                resR[count] = i;
+                count++;
+            }
+            if(count == 2)return resR;
+        }
+
+        return res;
+    }
+
+    public static int rob(int[] nums) {
+        int dp[] = new int[nums.length];
+        if(nums.length == 1)return nums[0];
+        if(nums.length == 2)return Math.max(nums[0], nums[1]);
+        if(nums.length == 3)return Math.max(nums[1], nums[0] + nums[2]);
+        dp[0] =nums[0];
+        dp[1] = nums[1];
+        
+
+        for(int i = 3; i < nums.length; i++){
+            dp[i] = Math.max(dp[i - 1], dp[i -2] + nums[i]);
+            dp[i] = Math.max(dp[i], dp[i-3] + nums[i]);
+        }
+
+        return dp[nums.length - 1];
+    }
+
+    public static int numSquares(int n) {
+        //dp[i]是指的和为n的最少的平方和数dp[i]
+        //dp[i] = min(dp[i - j^2], dp[i])
+        int dp[] = new int[n + 1];
+        for(int i = 0; i < dp.length; i++){
+            dp[i] = i;
+        }
+        
+        for(int i = 1; i*i < dp.length; i++){
+            for(int j = i*i; j<= n; j++){
+                dp[j] = Math.min(dp[j], dp[j - i*i] + 1);
+            }
+        }
+        
+        return dp[n];
+    }
+
+    public static List<List<Integer>> generate(int numRows) {
+        //dp[i][j]是第i行第j列的杨慧数
+        List<List<Integer>> res = new ArrayList<>();
+         List<Integer> oldTempt = new ArrayList<>();
+        for(int i = 0; i < numRows; i++){
+            List<Integer> tempt = new ArrayList<>();
+            for(int j = 0; j <= i; j++){
+                int elment = 0;
+                if(j == 0){
+                
+                    tempt.add(1);
+                    continue;
+                }
+
+                if(j == i){
+        
+                    tempt.add(1);
+                    continue;
+                }
+                
+                elment = oldTempt.get(j - 1) + oldTempt.get(j);
+                tempt.add(elment);
+            }
+            oldTempt = tempt;
+            res.add(tempt);
+        }
+        return res;
     }
 }

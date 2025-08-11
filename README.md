@@ -380,3 +380,44 @@ public static int coinChange(int[] coins, int amount) {
        return dp[amount] > amount? -1: dp[amount];
     }
 ```
+
+![alt text](image-13.png)
+```java
+    public static int rob(int[] nums) {
+        int dp[] = new int[nums.length];
+        if(nums.length == 1)return nums[0];
+        if(nums.length == 2)return Math.max(nums[0], nums[1]);
+        if(nums.length == 3)return Math.max(nums[1], nums[0] + nums[2]);
+        dp[0] =nums[0];
+        dp[1] = nums[1];
+        
+
+        for(int i = 3; i < nums.length; i++){
+            dp[i] = Math.max(dp[i - 1], dp[i -2] + nums[i]);
+            dp[i] = Math.max(dp[i], dp[i-3] + nums[i]);
+        }
+
+        return dp[nums.length - 1];
+    }
+```
+
+![alt text](image-14.png)
+
+```java
+public static int numSquares(int n) {
+        //dp[i]是指的和为n的最少的平方和数dp[i]
+        //dp[i] = min(dp[i - j^2], dp[i])
+        int dp[] = new int[n + 1];
+        for(int i = 0; i < dp.length; i++){
+            dp[i] = i;
+        }
+        
+        for(int i = 1; i*i < dp.length; i++){
+            for(int j = i*i; j<= n; j++){
+                dp[j] = Math.min(dp[j], dp[j - i*i] + 1);
+            }
+        }
+        
+        return dp[n];
+    }
+```
