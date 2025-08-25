@@ -421,3 +421,45 @@ public static int numSquares(int n) {
         return dp[n];
     }
 ```
+![alt text](image-15.png)
+
+```java
+    public boolean wordBreak(String s, List<String> wordDict) {
+        //dp[i]代表i长度的是否是可以组成的
+        boolean dp[] = new boolean[s.length() + 1];
+        dp[0] = true;
+        for(int i = 1; i <= s.length(); i++ ){
+            for(int j = 0; j < i; j++){
+                String tempt = s.substring(j, i);
+                if(wordDict.contains(tempt) == true && dp[j] == true){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+
+        return dp[s.length()];
+    }
+```
+
+![alt text](image-16.png)
+```java
+public int lengthOfLIS(int[] nums) {
+        // dp[i]代表的是num[i]为结尾的最长递归子序列的长度
+        int dp[] = new int[nums.length];
+        if(dp.length == 0)return 0;
+        for(int i = 0; i < dp.length; i++){
+            dp[i] = 1;
+        }
+        for(int i = 0; i < nums.length; i++){
+            for(int j = i; j < nums.length; j++){
+                if(nums[j] > nums[i]){
+                    dp[j] = Math.max(dp[j], dp[i] + 1);
+                }
+            }
+        }
+
+        return Arrays.stream(dp).max().getAsInt();
+        
+    }
+```
