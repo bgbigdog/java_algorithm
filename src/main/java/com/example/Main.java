@@ -1,12 +1,14 @@
 package com.example;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        //int array[] = {2,1,1,2};
+        int array[] = {7,-2,-4};
         // nextPermutation(array);
         // findTargetSumWays(array, 3);
         // String strArray[] = {"0","00","1"};
@@ -20,6 +22,8 @@ public class Main {
         // System.err.println(res[1]);
         // numSquares(12);
         //generate(5);
+        //maxProduct(array);
+        longestValidParentheses("()(()");
     }
 
     public int findDuplicate(int[] nums) {
@@ -432,6 +436,63 @@ public class Main {
         }
 
         return Arrays.stream(dp).max().getAsInt();
+        
+    }
+
+    public static int maxProduct(int[] nums) {
+        //dp[i]代表着num[i]结尾的数组的最大连续乘积数值
+        int dp[][] = new int[nums.length][2];
+        for(int i = 0; i < dp.length; i++){
+            dp[i][0] = nums[i];
+            dp[i][1] = nums[i];
+        }
+
+        for(int i = 1; i < nums.length; i++){
+                if(nums[i] > 0){
+                    dp[i][0] = Math.max(dp[i][0], dp[i - 1][0] * nums[i]);
+                    dp[i][1] = Math.min(dp[i][1], dp[i - 1][1] * nums[i]);
+                }else if(nums[i] < 0){
+                    dp[i][0] = Math.max(dp[i][0], dp[i - 1][1] * nums[i]);
+                    dp[i][1] = Math.min(dp[i][1], dp[i - 1][0] * nums[i]);
+                }else{
+                    dp[i][1] = 0;
+                    dp[i][0] = 0;
+                }   
+        }
+
+        int res = Integer.MIN_VALUE;
+        for(int i = 0; i < dp.length; i++){
+            res = Math.max(res, dp[i][0]);
+        }
+        return res;
+    }
+
+    public static int longestValidParentheses(String s) {
+        Deque<Character> deque = new ArrayDeque<>();
+        int max = 0;
+        int dp[] = new int[s.length()];
+
+        for(int i = 0; i < s.length(); i++){
+            char tempt = s.charAt(i);
+            if(deque.isEmpty()){
+                deque.push(tempt);
+                continue;
+            }
+            dp[i] = dp[i - 1];
+            char compare = deque.getFirst();
+            if(compare == '(' && tempt == ')'){
+                deque.pop();
+                dp[i] = dp[i - 1] + 2;
+            }else{
+                deque.push(tempt);
+            }
+        }
+        
+        for(int i = 0; i < dp.length; i++){
+            max = Math.max(max, dp[i]);
+        }
+
+        return max;
         
     }
 }
